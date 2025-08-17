@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة المشتريات الذكية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    
+    <div class="container">
+        <div class="logo">
+            <i class="fas fa-shopping-cart"></i>
+            <span>حاسبتي</span>
+        </div>
+        
+        <h1 class="animate-text">مرحباً بك في حاسبة المشتريات الذكية</h1>
+        <p class="subtitle">أداة ذكية تساعدك على تتبع مشترياتك والتحكم في مصروفاتك بكل سهولة</p>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-wallet"></i>
+                <h3>حدد ميزانيتك</h3>
+                <p>ضع الحد الأقصى للمبلغ الذي ترغب في صرفه</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-list"></i>
+                <h3>أضف مشترياتك</h3>
+                <p>سجل جميع المشتريات مع أسعارها</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-pie"></i>
+                <h3>تتبع مصروفاتك</h3>
+                <p>اعرف أين تذهب أموالك بالضبط</p>
+            </div>
+        </div>
+        
+        <button onclick="window.location.href='budget.html'" class="start-btn">
+            ابدأ الآن
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number">+500</span>
+                <span class="stat-label">مستخدم نشط</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">50,000+</span>
+                <span class="stat-label">ريال وفرها المستخدمون</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="floating-icons">
+        <i class="fas fa-tag"></i>
+        <i class="fas fa-shopping-bag"></i>
+        <i class="fas fa-percentage"></i>
+        <i class="fas fa-receipt"></i>
+    </div>
+    
+    <script>
+        // Add animation to features on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const features = document.querySelectorAll('.feature');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            features.forEach(feature => {
+                feature.style.opacity = '0';
+                feature.style.transform = 'translateY(20px)';
+                feature.style.transition = 'all 0.6s ease-out';
+                observer.observe(feature);
+            });
+            
+            // Animate floating icons
+            const icons = document.querySelectorAll('.floating-icons i');
+            icons.forEach((icon, index) => {
+                const delay = index * 0.2;
+                icon.style.animation = `float ${3 + Math.random() * 3}s ease-in-out ${delay}s infinite`;
+                icon.style.left = `${10 + Math.random() * 80}%`;
+                icon.style.top = `${10 + Math.random() * 80}%`;
+            });
+        });
+    </script>
+</body>
+</html>

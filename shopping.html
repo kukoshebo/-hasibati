@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة المشتريات - حاسبة المشتريات الذكية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    
+    <div class="container shopping-container">
+        <div class="header">
+            <button onclick="window.location.href='budget.html'" class="back-btn">
+                <i class="fas fa-arrow-right"></i>
+                عودة
+            </button>
+            <h1>قائمة المشتريات</h1>
+            <div class="progress-steps">
+                <div class="step">1</div>
+                <div class="step-line"></div>
+                <div class="step active">2</div>
+                <div class="step-line"></div>
+                <div class="step">3</div>
+            </div>
+        </div>
+        
+        <div class="budget-summary">
+            <div class="budget-card">
+                <div class="budget-metric">
+                    <i class="fas fa-wallet"></i>
+                    <div>
+                        <span class="label">الميزانية المتبقية</span>
+                        <span class="amount" id="remaining-budget">0</span>
+                        <span class="currency">ر.س</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" id="budget-progress"></div>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="label">إجمالي المشتريات</span>
+                    <span class="value" id="total-spent">0</span>
+                    <span class="currency">ر.س</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-boxes"></i>
+                    <span class="label">عدد العناصر</span>
+                    <span class="value" id="items-count">0</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-percentage"></i>
+                    <span class="label">نسبة الصرف</span>
+                    <span class="value" id="spent-percentage">0</span>
+                    <span class="currency">%</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="add-item-card">
+            <h3><i class="fas fa-plus-circle"></i> إضافة عنصر جديد</h3>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" id="item-name" placeholder="اسم المنتج" class="item-input">
+                    <div class="input-with-icon">
+                        <input type="number" id="item-price" min="0.01" step="0.01" placeholder="السعر" class="price-input">
+                        <span class="currency">ر.س</span>
+                    </div>
+                    <button onclick="addItem()" class="add-btn">
+                        <i class="fas fa-plus"></i>
+                        إضافة
+                    </button>
+                </div>
+            </div>
+            
+            <div class="quick-categories">
+                <h4>أضف بسرعة:</h4>
+                <div class="category-buttons">
+                    <button class="quick-category" data-name="خبز" data-price="5">
+                        <i class="fas fa-bread-slice"></i>
+                        خبز
+                    </button>
+                    <button class="quick-category" data-name="أرز" data-price="25">
+                        <i class="fas fa-utensils"></i>
+                        أرز
+                    </button>
+                    <button class="quick-category" data-name="دجاج" data-price="30">
+                        <i class="fas fa-drumstick-bite"></i>
+                        دجاج
+                    </button>
+                    <button class="quick-category" data-name="حليب" data-price="15">
+                        <i class="fas fa-wine-bottle"></i>
+                        حليب
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="shopping-list-container">
+            <div class="list-header">
+                <h3><i class="fas fa-shopping-basket"></i> قائمة مشترياتك</h3>
+                <div class="list-actions">
+                    <button class="sort-btn" data-sort="name">
+                        <i class="fas fa-sort-alpha-down"></i>
+                        ترتيب أبجدي
+                    </button>
+                    <button class="sort-btn" data-sort="price">
+                        <i class="fas fa-sort-amount-down"></i>
+                        ترتيب بالسعر
+                    </button>
+                </div>
+            </div>
+            
+            <div class="items-list" id="items-list">
+                <!-- Items will be added here by JavaScript -->
+                <div class="empty-state">
+                    <i class="fas fa-shopping-basket"></i>
+                    <p>لا توجد عناصر في قائمة المشتريات</p>
+                    <small>ابدأ بإضافة عناصر إلى قائمتك</small>
+                </div>
+            </div>
+            
+            <div class="list-summary">
+                <div class="summary-item">
+                    <span>عدد العناصر:</span>
+                    <span id="summary-count">0</span>
+                </div>
+                <div class="budget-summary">
+                <h3>ملخص الميزانية</h3>
+                <div class="budget-progress-container">
+                    <div class="budget-progress-labels">
+                        <span>0%</span>
+                        <span id="spent-percentage">0</span>%
+                        <span>100%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="budget-progress" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="budget-details">
+                    <div class="budget-detail">
+                        <span class="detail-label">الميزانية:</span>
+                        <span id="budget-amount" class="detail-value">0.00 ر.س</span>
+                    </div>
+                    <div class="budget-detail">
+                        <span class="detail-label">إجمالي المشتريات:</span>
+                        <span id="total-spent" class="detail-value">0.00 ر.س</span>
+                    </div>
+                    <div class="budget-detail">
+                        <span class="detail-label">المتبقي:</span>
+                        <span id="remaining-budget" class="detail-value">0.00 ر.س</span>
+                    </div>
+                    <div class="budget-detail">
+                        <span class="detail-label">عدد العناصر:</span>
+                        <span id="items-count" class="detail-value">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button onclick="finishShopping()" class="finish-btn">
+                <i class="fas fa-check-circle"></i>
+                إنهاء وحفظ
+            </button>
+            <button onclick="clearAllItems()" class="clear-btn">
+                <i class="fas fa-trash-alt"></i>
+                مسح الكل
+            </button>
+        </div>
+    </div>
+    
+    <!-- Receipt Modal -->
+    <div id="receipt-modal" class="receipt-modal">
+        <div class="receipt-content" id="receipt-content">
+            <!-- Receipt content will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Include html2canvas for receipt image generation -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Quick category buttons
+        document.querySelectorAll('.quick-category').forEach(button => {
+            button.addEventListener('click', function() {
+                const name = this.getAttribute('data-name');
+                const price = this.getAttribute('data-price');
+                
+                document.getElementById('item-name').value = name;
+                document.getElementById('item-price').value = price;
+                
+                // Add animation
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+        
+        // Sort buttons
+        document.querySelectorAll('.sort-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const sortBy = this.getAttribute('data-sort');
+                sortItems(sortBy);
+                
+                // Update active state
+                document.querySelectorAll('.sort-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Close modal
+        document.querySelector('.close-modal').addEventListener('click', function() {
+            document.getElementById('receipt-modal').style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('receipt-modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Sort items function
+        function sortItems(sortBy) {
+            const itemsList = document.getElementById('items-list');
+            const items = Array.from(itemsList.children).filter(item => item.classList.contains('item'));
+            
+            items.sort((a, b) => {
+                if (sortBy === 'name') {
+                    const nameA = a.querySelector('.item-name').textContent.toLowerCase();
+                    const nameB = b.querySelector('.item-name').textContent.toLowerCase();
+                    return nameA.localeCompare(nameB);
+                } else if (sortBy === 'price') {
+                    const priceA = parseFloat(a.getAttribute('data-price'));
+                    const priceB = parseFloat(b.getAttribute('data-price'));
+                    return priceA - priceB;
+                }
+                return 0;
+            });
+            
+            // Re-append sorted items
+            items.forEach(item => itemsList.appendChild(item));
+        }
+        
+        // Clear all items
+        function clearAllItems() {
+            if (confirm('هل أنت متأكد من رغبتك في مسح جميع العناصر؟')) {
+                const itemsList = document.getElementById('items-list');
+                const items = itemsList.querySelectorAll('.item');
+                
+                // Animate removal
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.transform = 'translateX(100%)';
+                        item.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            item.remove();
+                            updateSummary();
+                            
+                            // Show empty state if no items left
+                            if (itemsList.children.length === 1) {
+                                document.querySelector('.empty-state').style.display = 'block';
+                            }
+                        }, 300);
+                    }, index * 100);
+                });
+                
+                // Clear from localStorage
+                localStorage.removeItem('shoppingItems');
+                localStorage.removeItem('totalSpent');
+                
+                // Update budget display
+                updateBudgetDisplay();
+            }
+        }
+        
+        // Print receipt
+        function printReceipt() {
+            window.print();
+        }
+        
+        // Download receipt
+        function downloadReceipt() {
+            // This will be handled by the finishShopping function in script.js
+            finishShopping();
+        }
+        
+        // Update summary function
+        function updateSummary() {
+            const items = document.querySelectorAll('.item');
+            const total = Array.from(items).reduce((sum, item) => {
+                return sum + parseFloat(item.getAttribute('data-price'));
+            }, 0);
+            
+            document.getElementById('summary-count').textContent = items.length;
+            document.getElementById('summary-total').textContent = total.toFixed(2);
+        }
+        
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add tooltips to all elements with data-tooltip attribute
+            const tooltips = document.querySelectorAll('[data-tooltip]');
+            tooltips.forEach(tooltip => {
+                tooltip.addEventListener('mouseenter', showTooltip);
+                tooltip.addEventListener('mouseleave', hideTooltip);
+            });
+            
+            // Initialize sort by name by default
+            document.querySelector('[data-sort="name"]').click();
+        });
+        
+        function showTooltip(event) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = this.getAttribute('data-tooltip');
+            document.body.appendChild(tooltip);
+            
+            const rect = this.getBoundingClientRect();
+            tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+            tooltip.style.left = (rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2)) + 'px';
+            
+            this.tooltipElement = tooltip;
+        }
+        
+        function hideTooltip() {
+            if (this.tooltipElement) {
+                this.tooltipElement.remove();
+                this.tooltipElement = null;
+            }
+        }
+    </script>
+</body>
+</html>

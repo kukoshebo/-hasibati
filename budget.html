@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحديد الميزانية - حاسبة المشتريات الذكية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+    
+    <div class="container budget-container">
+        <div class="header">
+            <button onclick="window.location.href='index.html'" class="back-btn">
+                <i class="fas fa-arrow-right"></i>
+                عودة
+            </button>
+            <div class="progress-steps">
+                <div class="step active">1</div>
+                <div class="step-line"></div>
+                <div class="step">2</div>
+                <div class="step-line"></div>
+                <div class="step">3</div>
+            </div>
+        </div>
+        
+        <div class="budget-card">
+            <div class="budget-icon">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <h1 class="animate-text">حدد ميزانيتك الشهرية</h1>
+            <p class="subtitle">أدخل المبلغ الإجمالي الذي ترغب في صرفه هذا الشهر</p>
+            
+            <div class="form-group">
+                <div class="input-with-icon">
+                    <input type="number" id="budget" min="1" placeholder="مثال: 1500" required>
+                    <span class="currency">ر.س</span>
+                </div>
+                
+                <div class="quick-buttons">
+                    <button class="quick-amount" data-amount="500">+500</button>
+                    <button class="quick-amount" data-amount="1000">+1,000</button>
+                    <button class="quick-amount" data-amount="2000">+2,000</button>
+                </div>
+                
+                <div class="budget-slider">
+                    <input type="range" id="budgetRange" min="100" max="10000" step="100" value="1500">
+                    <div class="range-labels">
+                        <span>100 ر.س</span>
+                        <span>10,000 ر.س</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="budget-tips">
+                <h3>نصائح لتحديد الميزانية:</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> خصص مبلغاً للطوارئ</li>
+                    <li><i class="fas fa-check-circle"></i> ضع أهدافاً واقعية</li>
+                    <li><i class="fas fa-check-circle"></i> راجع مصروفاتك السابقة</li>
+                </ul>
+            </div>
+            
+            <button onclick="saveBudget()" class="next-btn">
+                حفظ والمتابعة
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+        
+        <div class="budget-categories">
+            <h3>أمثلة للمساعدة في تحديد الميزانية:</h3>
+            <div class="categories-grid">
+                <div class="category">
+                    <i class="fas fa-utensils"></i>
+                    <span>الطعام</span>
+                    <span class="amount">500-1000 ر.س</span>
+                </div>
+                <div class="category">
+                    <i class="fas fa-home"></i>
+                    <span>الإيجار</span>
+                    <span class="amount">2000-4000 ر.س</span>
+                </div>
+                <div class="category">
+                    <i="fas fa-car"></i>
+                    <span>المواصلات</span>
+                    <span class="amount">300-800 ر.س</span>
+                </div>
+                <div class="category">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>الاتصالات</span>
+                    <span class="amount">100-300 ر.س</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Connect range slider with number input
+        const budgetInput = document.getElementById('budget');
+        const budgetRange = document.getElementById('budgetRange');
+        const quickAmounts = document.querySelectorAll('.quick-amount');
+        
+        // Update range when input changes
+        budgetInput.addEventListener('input', function() {
+            budgetRange.value = this.value || 0;
+        });
+        
+        // Update input when range changes
+        budgetRange.addEventListener('input', function() {
+            budgetInput.value = this.value;
+        });
+        
+        // Quick amount buttons
+        quickAmounts.forEach(button => {
+            button.addEventListener('click', function() {
+                const amount = parseInt(this.getAttribute('data-amount'));
+                const currentValue = parseInt(budgetInput.value) || 0;
+                budgetInput.value = currentValue + amount;
+                budgetRange.value = budgetInput.value;
+                
+                // Add animation
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+        
+        // Add currency formatting
+        budgetInput.addEventListener('blur', function() {
+            if (this.value) {
+                this.value = parseInt(this.value).toLocaleString('en-US');
+            }
+        });
+        
+        budgetInput.addEventListener('focus', function() {
+            this.value = this.value.replace(/,/g, '');
+        });
+    </script>
+</body>
+</html>
